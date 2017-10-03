@@ -140,8 +140,14 @@ export class MatListOption extends _MatListOptionMixinBase
   /** Toggles the selection state of the option. */
   toggle(): void {
     this.selected = !this.selected;
-    this.selectionList.selectedOptions.toggle(this);
-    this._changeDetector.markForCheck();
+      this.selectionList.selectedOptions.toggle(this);
+      let event = {option: this};
+      if (this.selected) {
+          this.selectChange.next(event);
+      } else {
+          this.deselected.next(event);
+      }
+      this._changeDetector.markForCheck();
   }
 
   /** Allows for programmatic focusing of the option. */
